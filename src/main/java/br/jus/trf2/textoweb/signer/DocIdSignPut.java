@@ -3,24 +3,16 @@ package br.jus.trf2.textoweb.signer;
 import java.io.ByteArrayInputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.crivano.restservlet.IRestAction;
 
-@SuppressWarnings("serial")
 public class DocIdSignPut implements IRestAction {
 
 	@Override
-	public void run(HttpServletRequest request, HttpServletResponse response,
-			JSONObject req, JSONObject resp) throws Exception {
+	public void run(JSONObject req, JSONObject resp) throws Exception {
 		Id id = new Id(req.getString("id"));
 		String envelope = req.getString("envelope");
 		String cpf = req.getString("cpf");

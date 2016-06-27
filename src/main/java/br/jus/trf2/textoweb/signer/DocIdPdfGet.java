@@ -3,24 +3,17 @@ package br.jus.trf2.textoweb.signer;
 import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
 
 import com.crivano.restservlet.IRestAction;
-import com.crivano.restservlet.RestUtils;
 
 public class DocIdPdfGet implements IRestAction {
 	@Override
-	public void run(HttpServletRequest request, HttpServletResponse response,
-			JSONObject req, JSONObject resp) throws Exception {
+	public void run(JSONObject req, JSONObject resp) throws Exception {
 		Id id = new Id(req.getString("id"));
 
 		byte[] pdf = retrievePdf(id);
