@@ -1,4 +1,4 @@
-select	tw.CodSecao as IdSecao, tw.CodTxtWeb as IdTextoWeb, tw.Arq as ArquivoCompactado, ttw.Descr as TipoDeTexto, p.NumProcCompl as CodDocumento, ti.Descr as IncidenteDocumento
+select	tw.CodSecao as IdSecao, tw.CodTxtWeb as IdTextoWeb, tw.Arq as ArquivoCompactado, ttw.Descr as TipoDeTexto, formata_proc(p.numproccompl) as CodDocumento, ti.Descr as IncidenteDocumento
 from	TextoWeb tw
 inner 	join SituacaoTextoWeb stw on stw.CodSitua = nval_const('$$SituaTxtWebRevis') and stw.CodSecao = tw.CodSecao and stw.CodSitua = tw.Codsitua
 inner	join TipoTextoWeb ttw on ttw.CodSecao = tw.CodSecao and ttw.CodTipTxt = tw.CodTipTxt
