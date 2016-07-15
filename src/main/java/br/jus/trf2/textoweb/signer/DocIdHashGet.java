@@ -45,6 +45,6 @@ public class DocIdHashGet implements IRestAction {
 
 	@Override
 	public String getContext() {
-		return "obter o hash de documento do TextoWeb";
+		return "obter o hash";
 	}
 }

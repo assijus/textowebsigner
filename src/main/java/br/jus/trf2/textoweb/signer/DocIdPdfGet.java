@@ -10,12 +10,13 @@ import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
 
 import com.crivano.restservlet.IRestAction;
+import com.crivano.restservlet.PresentableException;
 
 public class DocIdPdfGet implements IRestAction {
 	@Override
 	public void run(JSONObject req, JSONObject resp) throws Exception {
 		Id id = new Id(req.getString("id"));
-
+		
 		byte[] pdf = retrievePdf(id);
 
 		// Produce response
@@ -80,7 +81,7 @@ public class DocIdPdfGet implements IRestAction {
 		}
 
 		if (pdfCompressed == null)
-			throw new Exception("Não foi possível localizar o PDF.");
+			throw new PresentableException("Não foi possível localizar o PDF.");
 
 		// Utils.fileWrite("pdf-compressed.doc", docCompressed);
 
@@ -97,6 +98,6 @@ public class DocIdPdfGet implements IRestAction {
 
 	@Override
 	public String getContext() {
-		return "visualizar documento do TextoWeb";
+		return "visualizar documento";
 	}
 }

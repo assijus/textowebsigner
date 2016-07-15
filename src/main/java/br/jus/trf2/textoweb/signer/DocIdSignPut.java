@@ -16,7 +16,7 @@ public class DocIdSignPut implements IRestAction {
 		Id id = new Id(req.getString("id"));
 		String envelope = req.getString("envelope");
 		String cpf = req.getString("cpf");
-
+		
 		byte[] assinatura = envelope.getBytes("UTF-8");
 
 		byte[] envelopeCompressed = Utils.compress(assinatura);
@@ -55,7 +55,7 @@ public class DocIdSignPut implements IRestAction {
 
 			// Produce response
 			resp.put("status", cstmt.getObject(5));
-			resp.put("error", cstmt.getObject(6));
+			resp.put("errormsg", cstmt.getObject(6));
 		} finally {
 			if (cstmt != null)
 				cstmt.close();
@@ -66,6 +66,6 @@ public class DocIdSignPut implements IRestAction {
 
 	@Override
 	public String getContext() {
-		return "salvar assinatura no TextoWeb";
+		return "salvar assinatura";
 	}
 }

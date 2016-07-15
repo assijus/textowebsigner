@@ -79,7 +79,7 @@ public class DocListGet implements IRestAction {
 
 	@Override
 	public String getContext() {
-		return "listar documentos do TextoWeb";
+		return "listar documentos";
 	}
 
 }
