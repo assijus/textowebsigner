@@ -6,21 +6,21 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
 
 import com.crivano.restservlet.IRestAction;
 import com.crivano.restservlet.PresentableException;
+import com.crivano.restservlet.RestUtils;
 
 public class DocIdPdfGet implements IRestAction {
 	@Override
 	public void run(JSONObject req, JSONObject resp) throws Exception {
 		Id id = new Id(req.getString("id"));
-		
+
 		byte[] pdf = retrievePdf(id);
 
 		// Produce response
-		resp.put("doc", Base64.encodeBase64String(pdf));
+		resp.put("doc", RestUtils.base64Encode(pdf));
 	}
 
 	protected static byte[] retrievePdf(Id id) throws Exception, SQLException {
