@@ -13,7 +13,6 @@ import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Logger;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -26,8 +25,6 @@ import javax.sql.DataSource;
 import com.crivano.restservlet.RestUtils;
 
 public class Utils {
-	private static final Logger log = Logger.getLogger(Utils.class.getName());
-
 	private static final Map<String, byte[]> cache = new HashMap<String, byte[]>();
 
 	public static void fileWrite(String filename, byte[] ba)
