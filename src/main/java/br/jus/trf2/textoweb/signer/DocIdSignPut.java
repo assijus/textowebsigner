@@ -5,23 +5,24 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Types;
 
-import org.json.JSONObject;
+import br.jus.trf2.textoweb.signer.ITextoWebSigner.DocIdSignPutRequest;
+import br.jus.trf2.textoweb.signer.ITextoWebSigner.DocIdSignPutResponse;
+import br.jus.trf2.textoweb.signer.ITextoWebSigner.IDocIdSignPut;
 
-import com.crivano.restservlet.IRestAction;
+import com.crivano.swaggerservlet.SwaggerUtils;
 
-public class DocIdSignPut implements IRestAction {
+public class DocIdSignPut implements IDocIdSignPut {
 
 	@Override
-	public void run(JSONObject req, JSONObject resp) throws Exception {
-		Id id = new Id(req.getString("id"));
-		String envelope = req.getString("envelope");
-		String cpf = req.getString("cpf");
-		
+	public void run(DocIdSignPutRequest req, DocIdSignPutResponse resp)
+			throws Exception {
+		Id id = new Id(req.id);
+		String envelope = SwaggerUtils.base64Encode(req.envelope);
+		String cpf = req.cpf;
+
 		byte[] assinatura = envelope.getBytes("UTF-8");
 
 		byte[] envelopeCompressed = Utils.compress(assinatura);
-
-		String msg = null;
 
 		// Chama a procedure que faz a gravação da assinatura
 		//
@@ -54,8 +55,10 @@ public class DocIdSignPut implements IRestAction {
 			cstmt.execute();
 
 			// Produce response
-			resp.put("status", cstmt.getObject(5));
-			resp.put("errormsg", cstmt.getObject(6));
+			String errormsg = cstmt.getString(6);
+			if (errormsg != null)
+				throw new Exception(errormsg);
+			resp.status = "OK";
 		} finally {
 			if (cstmt != null)
 				cstmt.close();

@@ -3,26 +3,24 @@ package br.jus.trf2.textoweb.signer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.json.JSONObject;
+import br.jus.trf2.textoweb.signer.ITextoWebSigner.DocIdHashGetRequest;
+import br.jus.trf2.textoweb.signer.ITextoWebSigner.DocIdHashGetResponse;
+import br.jus.trf2.textoweb.signer.ITextoWebSigner.IDocIdHashGet;
 
-import com.crivano.restservlet.IRestAction;
-import com.crivano.restservlet.RestUtils;
-
-public class DocIdHashGet implements IRestAction {
+public class DocIdHashGet implements IDocIdHashGet {
 	@Override
-	public void run(JSONObject req, JSONObject resp) throws Exception {
-		Id id = new Id(req.getString("id"));
+	public void run(DocIdHashGetRequest req, DocIdHashGetResponse resp)
+			throws Exception {
+		Id id = new Id(req.id);
 
 		byte[] pdf = DocIdPdfGet.retrievePdf(id);
 
 		// Produce response
-		String sha1 = RestUtils.base64Encode(calcSha1(pdf));
-		String sha256 = RestUtils.base64Encode(calcSha256(pdf));
-		resp.put("sha1", sha1);
-		resp.put("sha256", sha256);
+		resp.sha1 = calcSha1(pdf);
+		resp.sha256 = calcSha256(pdf);
 
-		resp.put("policy", "PKCS7");
-		resp.put("doc", RestUtils.base64Encode(pdf));
+		resp.policy = "PKCS7";
+		resp.doc = pdf;
 	}
 
 	public static byte[] calcSha1(byte[] content)

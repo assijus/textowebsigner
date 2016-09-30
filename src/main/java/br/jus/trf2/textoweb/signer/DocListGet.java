@@ -3,21 +3,25 @@ package br.jus.trf2.textoweb.signer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import br.jus.trf2.textoweb.signer.ITextoWebSigner.DocListGetRequest;
+import br.jus.trf2.textoweb.signer.ITextoWebSigner.DocListGetResponse;
+import br.jus.trf2.textoweb.signer.ITextoWebSigner.Document;
+import br.jus.trf2.textoweb.signer.ITextoWebSigner.IDocListGet;
 
-import com.crivano.restservlet.IRestAction;
-
-public class DocListGet implements IRestAction {
+public class DocListGet implements IDocListGet {
 
 	@Override
-	public void run(JSONObject req, JSONObject resp) throws Exception {
+	public void run(DocListGetRequest req, DocListGetResponse resp)
+			throws Exception {
+
 		// Parse request
-		String cpf = req.getString("cpf");
+		String cpf = req.cpf;
 
 		// Setup json array
-		JSONArray list = new JSONArray();
+		List<Document> list = new ArrayList<>();
 
 		// Get documents from Oracle
 		//
@@ -44,22 +48,16 @@ public class DocListGet implements IRestAction {
 			rset = pstmt.executeQuery();
 
 			while (rset.next()) {
-				JSONObject doc = new JSONObject();
+				Document doc = new Document();
 
 				Id id = new Id(cpf, rset.getInt("IdSecao"),
 						rset.getLong("IdTextoWeb"));
-				doc.put("id", id.toString());
-				doc.put("code", rset.getString("CodDocumento"));
-				doc.put("descr", rset.getString("IncidenteDocumento"));
-				doc.put("kind", rset.getString("TipoDeTexto"));
-				doc.put("origin", "TextoWeb");
-				doc.put("urlHash", "textoweb/doc/" + doc.getString("id")
-						+ "/hash");
-				doc.put("urlSave", "textoweb/doc/" + doc.getString("id")
-						+ "/sign");
-				doc.put("urlView", "textoweb/doc/" + doc.getString("id")
-						+ "/pdf");
-				list.put(doc);
+				doc.id = id.toString();
+				doc.code = rset.getString("CodDocumento");
+				doc.descr = rset.getString("IncidenteDocumento");
+				doc.kind = rset.getString("TipoDeTexto");
+				doc.origin = "TextoWeb";
+				list.add(doc);
 
 				// Acrescenta essa informação na tabela para permitir a
 				// posterior visualização.
@@ -74,7 +72,7 @@ public class DocListGet implements IRestAction {
 				conn.close();
 		}
 
-		resp.put("list", list);
+		resp.list = list;
 	}
 
 	@Override
