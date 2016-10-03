@@ -31,6 +31,7 @@ interface ITextoWebSigner {
 
 	class DocListGetRequest implements ISwaggerRequest {
 		String cpf;
+		String urlapi;
 	}
 
 	class DocListGetResponse implements ISwaggerResponse {
@@ -44,6 +45,7 @@ interface ITextoWebSigner {
 
 	class DocIdPdfGetRequest implements ISwaggerRequest {
 		String id;
+		String cpf;
 	}
 
 	class DocIdPdfGetResponse implements ISwaggerResponse {
@@ -57,6 +59,7 @@ interface ITextoWebSigner {
 
 	class DocIdHashGetRequest implements ISwaggerRequest {
 		String id;
+		String cpf;
 	}
 
 	class DocIdHashGetResponse implements ISwaggerResponse {
