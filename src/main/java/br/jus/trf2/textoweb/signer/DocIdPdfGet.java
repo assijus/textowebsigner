@@ -10,7 +10,7 @@ import br.jus.trf2.textoweb.signer.ITextoWebSigner.DocIdPdfGetRequest;
 import br.jus.trf2.textoweb.signer.ITextoWebSigner.DocIdPdfGetResponse;
 import br.jus.trf2.textoweb.signer.ITextoWebSigner.IDocIdPdfGet;
 
-import com.crivano.restservlet.PresentableException;
+import com.crivano.swaggerservlet.PresentableException;
 
 public class DocIdPdfGet implements IDocIdPdfGet {
 

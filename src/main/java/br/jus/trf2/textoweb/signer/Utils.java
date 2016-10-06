@@ -22,7 +22,7 @@ import javax.naming.InitialContext;
 import javax.naming.NameNotFoundException;
 import javax.sql.DataSource;
 
-import com.crivano.restservlet.RestUtils;
+import com.crivano.swaggerservlet.SwaggerUtils;
 
 public class Utils {
 	private static final Map<String, byte[]> cache = new HashMap<String, byte[]>();
@@ -111,12 +111,12 @@ public class Utils {
 
 			Class.forName("oracle.jdbc.OracleDriver");
 
-			String dbURL = RestUtils.getProperty(
+			String dbURL = SwaggerUtils.getProperty(
 					"textowebsigner.datasource.url", null);
-			String username = RestUtils.getProperty(
+			String username = SwaggerUtils.getProperty(
 					"textowebsigner.datasource.username", null);
 			;
-			String password = RestUtils.getProperty(
+			String password = SwaggerUtils.getProperty(
 					"textowebsigner.datasource.password", null);
 			;
 			connection = DriverManager.getConnection(dbURL, username, password);
