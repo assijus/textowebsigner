@@ -12,8 +12,9 @@ public class DocIdHashGet implements IDocIdHashGet {
 	public void run(DocIdHashGetRequest req, DocIdHashGetResponse resp)
 			throws Exception {
 		Id id = new Id(req.id);
+		String cpf = req.cpf;
 
-		byte[] pdf = DocIdPdfGet.retrievePdf(id);
+		byte[] pdf = DocIdPdfGet.retrievePdf(id, cpf);
 
 		// Produce response
 		resp.sha1 = calcSha1(pdf);

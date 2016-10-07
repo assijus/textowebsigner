@@ -50,7 +50,7 @@ public class DocListGet implements IDocListGet {
 			while (rset.next()) {
 				Document doc = new Document();
 
-				Id id = new Id(cpf, rset.getInt("IdSecao"),
+				Id id = new Id(rset.getInt("IdSecao"),
 						rset.getLong("IdTextoWeb"));
 				doc.id = id.toString();
 				doc.code = rset.getString("CodDocumento");

@@ -18,12 +18,14 @@ public class DocIdPdfGet implements IDocIdPdfGet {
 	public void run(DocIdPdfGetRequest req, DocIdPdfGetResponse resp)
 			throws Exception {
 		Id id = new Id(req.id);
+		String cpf = req.cpf;
 
-		byte[] pdf = retrievePdf(id);
+		byte[] pdf = retrievePdf(id, cpf);
 		resp.doc = pdf;
 	}
 
-	protected static byte[] retrievePdf(Id id) throws Exception, SQLException {
+	protected static byte[] retrievePdf(Id id, String cpf) throws Exception,
+			SQLException {
 		byte[] pdfCompressed = null;
 		String status;
 		String error;
@@ -46,7 +48,7 @@ public class DocIdPdfGet implements IDocIdPdfGet {
 			cstmt.setLong(2, id.idtextoweb);
 
 			// CPF
-			cstmt.setString(3, id.cpf);
+			cstmt.setString(3, cpf);
 
 			// PDF uncompressed
 			cstmt.registerOutParameter(4, Types.BLOB);
