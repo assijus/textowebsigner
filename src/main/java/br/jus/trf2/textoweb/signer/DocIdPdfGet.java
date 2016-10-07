@@ -6,9 +6,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import br.jus.trf2.textoweb.signer.ITextoWebSigner.DocIdPdfGetRequest;
-import br.jus.trf2.textoweb.signer.ITextoWebSigner.DocIdPdfGetResponse;
-import br.jus.trf2.textoweb.signer.ITextoWebSigner.IDocIdPdfGet;
+import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdPdfGetRequest;
+import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdPdfGetResponse;
+import br.jus.trf2.assijus.system.api.IAssijusSystem.IDocIdPdfGet;
 
 import com.crivano.swaggerservlet.PresentableException;
 

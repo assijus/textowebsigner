@@ -5,9 +5,9 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Types;
 
-import br.jus.trf2.textoweb.signer.ITextoWebSigner.DocIdSignPutRequest;
-import br.jus.trf2.textoweb.signer.ITextoWebSigner.DocIdSignPutResponse;
-import br.jus.trf2.textoweb.signer.ITextoWebSigner.IDocIdSignPut;
+import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdSignPutRequest;
+import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdSignPutResponse;
+import br.jus.trf2.assijus.system.api.IAssijusSystem.IDocIdSignPut;
 
 import com.crivano.swaggerservlet.SwaggerUtils;
 
