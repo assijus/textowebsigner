@@ -57,6 +57,7 @@ public class DocListGet implements IDocListGet {
 				doc.descr = rset.getString("IncidenteDocumento");
 				doc.kind = rset.getString("TipoDeTexto");
 				doc.origin = "TextoWeb";
+				doc.secret = rset.getString("secret");
 				list.add(doc);
 
 				// Acrescenta essa informação na tabela para permitir a

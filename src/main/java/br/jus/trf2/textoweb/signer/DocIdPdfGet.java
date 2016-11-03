@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 
+import javax.xml.ws.RespectBinding;
+
 import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdPdfGetRequest;
 import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdPdfGetResponse;
 import br.jus.trf2.assijus.system.api.IAssijusSystem.IDocIdPdfGet;
@@ -15,17 +17,19 @@ import com.crivano.swaggerservlet.PresentableException;
 public class DocIdPdfGet implements IDocIdPdfGet {
 
 	@Override
-	public void run(DocIdPdfGetRequest req, DocIdPdfGetResponse resp)
-			throws Exception {
+	public void run(DocIdPdfGetRequest req, DocIdPdfGetResponse resp) throws Exception {
 		Id id = new Id(req.id);
 		String cpf = req.cpf;
 
-		byte[] pdf = retrievePdf(id, cpf);
-		resp.doc = pdf;
+		PdfData pdfd = retrievePdf(id, cpf);
+		
+		resp.doc = pdfd.pdf;
+		resp.secret = pdfd.secret;
 	}
 
-	protected static byte[] retrievePdf(Id id, String cpf) throws Exception,
-			SQLException {
+	protected static PdfData retrievePdf(Id id, String cpf) throws Exception, SQLException {
+		PdfData pdfd = new PdfData();
+
 		byte[] pdfCompressed = null;
 		String status;
 		String error;
@@ -53,11 +57,14 @@ public class DocIdPdfGet implements IDocIdPdfGet {
 			// PDF uncompressed
 			cstmt.registerOutParameter(4, Types.BLOB);
 
-			// Status
+			// Secret
 			cstmt.registerOutParameter(5, Types.VARCHAR);
 
-			// Error
+			// Status
 			cstmt.registerOutParameter(6, Types.VARCHAR);
+
+			// Error
+			cstmt.registerOutParameter(7, Types.VARCHAR);
 
 			cstmt.execute();
 
@@ -66,16 +73,13 @@ public class DocIdPdfGet implements IDocIdPdfGet {
 			// recupera o pdf para fazer assinatura sem política, apenas se ele
 			// for diferente de null
 			Blob blob = cstmt.getBlob(4);
-			if (blob != null)
+			if (blob != null) {
 				pdfCompressed = blob.getBytes(1, (int) blob.length());
-			// Temporariamente estamos recuperando o pdf e guardando no cache.
-			// byte[] pdfCompressed = Utils.compress(pdf);
-			// if (pdfCompressed == null)
-			// throw new Exception("Não foi possível comprimir o PDF.");
-			// Utils.store(sha1, pdfCompressed);
+				pdfd.secret = cstmt.getString(5);
+			}
 
-			status = cstmt.getString(5);
-			error = cstmt.getString(6);
+			status = cstmt.getString(6);
+			error = cstmt.getString(7);
 		} finally {
 			if (cstmt != null)
 				cstmt.close();
@@ -96,7 +100,9 @@ public class DocIdPdfGet implements IDocIdPdfGet {
 		if (pdf == null)
 			throw new Exception("Não foi possível descomprimir o PDF.");
 
-		return pdf;
+		pdfd.pdf = pdf;
+
+		return pdfd;
 	}
 
 	@Override

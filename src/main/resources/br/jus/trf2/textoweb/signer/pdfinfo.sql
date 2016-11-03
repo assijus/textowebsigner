@@ -1,25 +1,47 @@
-declare 
-	i_codsecao number(2,0);
-	i_codtxtweb number(10,0);
-  	i_cpf varchar2(14);
-  	
-	o_pdf blob := NULL;
-  	o_status varchar2(32767) := NULL;
-  	o_error varchar2(32767) := NULL;
+DECLARE 
+    i_codsecao  NUMBER(2, 0); 
+    i_codtxtweb NUMBER(10, 0); 
+    i_cpf       VARCHAR2(14); 
+    o_pdf       BLOB := NULL; 
+    o_secret    VARCHAR2(32767) := NULL; 
+    o_status    VARCHAR2(32767) := NULL; 
+    o_error     VARCHAR2(32767) := NULL; 
+    v_login     VARCHAR2(200) := NULL; 
+BEGIN 
+    i_codsecao := ?; 
 
-  	v_login varchar2(200) := NULL;
-begin
-	i_codsecao := ?;
-	i_codtxtweb := ?;
-	i_cpf := ?;
+    i_codtxtweb := ?; 
 
-  	select login into v_login from usuario where numcpf = i_cpf and IndAtivo = 'S';
-  	dbms_session_set_context(v_login);
-  	
-  	select Arq into o_pdf from TextoWeb tw where tw.CodSecao = i_codsecao and tw.CodTxtWeb = i_codtxtweb;
+    i_cpf := ?; 
 
-  	? := o_pdf;
-  		
-	? := o_status;
-	? := o_error;
-end;
+    SELECT login 
+    INTO   v_login 
+    FROM   usuario 
+    WHERE  numcpf = i_cpf 
+           AND indativo = 'S'; 
+
+    Dbms_session_set_context(v_login); 
+
+    SELECT arq 
+    INTO   o_pdf 
+    FROM   textoweb tw 
+    WHERE  tw.codsecao = i_codsecao 
+           AND tw.codtxtweb = i_codtxtweb; 
+
+    SELECT tw.coddoc 
+           || To_char(tw.dthrincl, 'ddmmyyyyhh24miss') 
+           || To_char(tw.dthrentr, 'ddmmyyyyhh24miss') 
+           || tw.codlocfis 
+    INTO   o_secret 
+    FROM   textoweb tw 
+    WHERE  tw.codsecao = i_codsecao 
+           AND tw.codtxtweb = i_codtxtweb; 
+
+    ? := o_pdf; 
+
+    ? := o_secret; 
+
+    ? := o_status; 
+
+    ? := o_error; 
+END; 

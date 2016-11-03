@@ -14,14 +14,15 @@ public class DocIdHashGet implements IDocIdHashGet {
 		Id id = new Id(req.id);
 		String cpf = req.cpf;
 
-		byte[] pdf = DocIdPdfGet.retrievePdf(id, cpf);
+		PdfData pdfd = DocIdPdfGet.retrievePdf(id, cpf);
 
 		// Produce response
-		resp.sha1 = calcSha1(pdf);
-		resp.sha256 = calcSha256(pdf);
+		resp.sha1 = calcSha1(pdfd.pdf);
+		resp.sha256 = calcSha256(pdfd.pdf);
 
 		resp.policy = "PKCS7";
-		resp.doc = pdf;
+		resp.doc = pdfd.pdf;
+		resp.secret = pdfd.secret;
 	}
 
 	public static byte[] calcSha1(byte[] content)
