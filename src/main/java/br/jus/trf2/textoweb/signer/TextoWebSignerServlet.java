@@ -22,7 +22,7 @@ public class TextoWebSignerServlet extends SwaggerServlet {
 
 		super.setAuthorization(SwaggerUtils.getProperty("textowebsigner.password", null));
 
-		addDependency(new TestableDependency("database", "apolods", false) {
+		addDependency(new TestableDependency("database", "apolods", false, 0, 10000) {
 			@Override
 			public String getUrl() {
 				return "java:/jboss/datasources/ApoloDS";
