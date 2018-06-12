@@ -1,5 +1,6 @@
 package br.jus.trf2.textoweb.signer;
 
+import java.io.ByteArrayInputStream;
 import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdPdfGetResponse;
 import br.jus.trf2.assijus.system.api.IAssijusSystem.IDocIdPdfGet;
 
 import com.crivano.swaggerservlet.PresentableException;
+import com.crivano.swaggerservlet.SwaggerServlet;
 
 public class DocIdPdfGet implements IDocIdPdfGet {
 
@@ -23,8 +25,8 @@ public class DocIdPdfGet implements IDocIdPdfGet {
 
 		PdfData pdfd = retrievePdf(id, cpf);
 		
-		resp.doc = pdfd.pdf;
-		resp.secret = pdfd.secret;
+		resp.inputstream = new ByteArrayInputStream(pdfd.pdf);
+		SwaggerServlet.getHttpServletResponse().addHeader("Doc-Secret", pdfd.secret);
 	}
 
 	protected static PdfData retrievePdf(Id id, String cpf) throws Exception, SQLException {
