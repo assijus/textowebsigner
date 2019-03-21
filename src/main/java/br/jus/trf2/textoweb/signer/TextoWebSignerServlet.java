@@ -4,7 +4,6 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
 import com.crivano.swaggerservlet.SwaggerServlet;
-import com.crivano.swaggerservlet.SwaggerUtils;
 import com.crivano.swaggerservlet.dependency.TestableDependency;
 
 import br.jus.trf2.assijus.system.api.IAssijusSystem;
@@ -13,19 +12,23 @@ public class TextoWebSignerServlet extends SwaggerServlet {
 	private static final long serialVersionUID = -1611417120964698257L;
 
 	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
+	public void initialize(ServletConfig config) throws ServletException {
+		setAPI(IAssijusSystem.class);
+		setActionPackage("br.jus.trf2.textoweb.signer");
 
-		super.setAPI(IAssijusSystem.class);
+		addRestrictedProperty("datasource.name", "java:/jboss/datasources/ApoloDS");
+		addRestrictedProperty("datasource.url", null);
+		addRestrictedProperty("datasource.username", null);
+		addPrivateProperty("datasource.password", null);
+		addRestrictedProperty("datasource.schema", "testeapolotrf");
 
-		super.setActionPackage("br.jus.trf2.textoweb.signer");
-
-		super.setAuthorization(SwaggerUtils.getProperty("textowebsigner.password", null));
+		addPrivateProperty("password", null);
+		super.setAuthorization(getProperty("password"));
 
 		addDependency(new TestableDependency("database", "apolods", false, 0, 10000) {
 			@Override
 			public String getUrl() {
-				return "java:/jboss/datasources/ApoloDS";
+				return getProperty("datasource.name");
 			}
 
 			@Override

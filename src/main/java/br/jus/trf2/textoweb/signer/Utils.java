@@ -22,13 +22,12 @@ import javax.naming.InitialContext;
 import javax.naming.NameNotFoundException;
 import javax.sql.DataSource;
 
-import com.crivano.swaggerservlet.SwaggerUtils;
+import com.crivano.swaggerservlet.SwaggerServlet;
 
 public class Utils {
 	private static final Map<String, byte[]> cache = new HashMap<String, byte[]>();
 
-	public static void fileWrite(String filename, byte[] ba)
-			throws FileNotFoundException, IOException {
+	public static void fileWrite(String filename, byte[] ba) throws FileNotFoundException, IOException {
 		FileOutputStream fos = new FileOutputStream(filename);
 		fos.write(ba);
 		fos.close();
@@ -65,8 +64,7 @@ public class Utils {
 	public static byte[] compress(byte[] data) throws IOException {
 		Deflater deflater = new Deflater();
 		deflater.setInput(data);
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(
-				data.length);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
 		deflater.finish();
 		byte[] buffer = new byte[1024];
 		while (!deflater.finished()) {
@@ -78,12 +76,10 @@ public class Utils {
 		return output;
 	}
 
-	public static byte[] decompress(byte[] data) throws IOException,
-			DataFormatException {
+	public static byte[] decompress(byte[] data) throws IOException, DataFormatException {
 		Inflater inflater = new Inflater();
 		inflater.setInput(data);
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(
-				data.length);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
 		byte[] buffer = new byte[1024];
 		while (!inflater.finished()) {
 			int count = inflater.inflate(buffer);
@@ -100,8 +96,7 @@ public class Utils {
 		try {
 			Context initContext = new InitialContext();
 			Context envContext = (Context) initContext.lookup("java:");
-			DataSource ds = (DataSource) envContext
-					.lookup("java:/jboss/datasources/ApoloDS");
+			DataSource ds = (DataSource) envContext.lookup(SwaggerServlet.getProperty("datasource.name"));
 			Connection connection = ds.getConnection();
 			if (connection == null)
 				throw new Exception("Can't open connection to Oracle.");
@@ -111,13 +106,10 @@ public class Utils {
 
 			Class.forName("oracle.jdbc.OracleDriver");
 
-			String dbURL = SwaggerUtils.getProperty(
-					"textowebsigner.datasource.url", null);
-			String username = SwaggerUtils.getProperty(
-					"textowebsigner.datasource.username", null);
+			String dbURL = SwaggerServlet.getProperty("datasource.url");
+			String username = SwaggerServlet.getProperty("datasource.username");
 			;
-			String password = SwaggerUtils.getProperty(
-					"textowebsigner.datasource.password", null);
+			String password = SwaggerServlet.getProperty("datasource.password");
 			;
 			connection = DriverManager.getConnection(dbURL, username, password);
 			if (connection == null)
@@ -135,8 +127,8 @@ public class Utils {
 	}
 
 	public static String getSQL(String filename) {
-		String text = new Scanner(DocListGet.class.getResourceAsStream(filename
-				+ ".sql"), "UTF-8").useDelimiter("\\A").next();
+		String text = new Scanner(DocListGet.class.getResourceAsStream(filename + ".sql"), "UTF-8").useDelimiter("\\A")
+				.next();
 		return text;
 	}
 

@@ -7,14 +7,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import javax.xml.ws.RespectBinding;
+import com.crivano.swaggerservlet.PresentableException;
+import com.crivano.swaggerservlet.SwaggerServlet;
 
 import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdPdfGetRequest;
 import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdPdfGetResponse;
 import br.jus.trf2.assijus.system.api.IAssijusSystem.IDocIdPdfGet;
-
-import com.crivano.swaggerservlet.PresentableException;
-import com.crivano.swaggerservlet.SwaggerServlet;
 
 public class DocIdPdfGet implements IDocIdPdfGet {
 
@@ -24,7 +22,7 @@ public class DocIdPdfGet implements IDocIdPdfGet {
 		String cpf = req.cpf;
 
 		PdfData pdfd = retrievePdf(id, cpf);
-		
+
 		resp.inputstream = new ByteArrayInputStream(pdfd.pdf);
 		SwaggerServlet.getHttpServletResponse().addHeader("Doc-Secret", pdfd.secret);
 	}
