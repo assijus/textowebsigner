@@ -20,8 +20,10 @@ public class DocIdHashGet implements IDocIdHashGet {
 		resp.sha1 = calcSha1(pdfd.pdf);
 		resp.sha256 = calcSha256(pdfd.pdf);
 
-		resp.policy = "PKCS7";
-		resp.doc = pdfd.pdf;
+		resp.policy = "AD-RB";
+		// resp.policy = "PKCS7";
+		// resp.doc = pdfd.pdf;
+		
 		resp.secret = pdfd.secret;
 	}
 
