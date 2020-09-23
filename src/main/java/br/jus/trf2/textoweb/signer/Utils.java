@@ -96,7 +96,7 @@ public class Utils {
 		try {
 			Context initContext = new InitialContext();
 			Context envContext = (Context) initContext.lookup("java:");
-			DataSource ds = (DataSource) envContext.lookup(SwaggerServlet.getProperty("datasource.name"));
+			DataSource ds = (DataSource) envContext.lookup(TextoWebSignerServlet.getProp("datasource.name"));
 			Connection connection = ds.getConnection();
 			if (connection == null)
 				throw new Exception("Can't open connection to Oracle.");
@@ -106,10 +106,10 @@ public class Utils {
 
 			Class.forName("oracle.jdbc.OracleDriver");
 
-			String dbURL = SwaggerServlet.getProperty("datasource.url");
-			String username = SwaggerServlet.getProperty("datasource.username");
+			String dbURL = TextoWebSignerServlet.getProp("datasource.url");
+			String username = TextoWebSignerServlet.getProp("datasource.username");
 			;
-			String password = SwaggerServlet.getProperty("datasource.password");
+			String password = TextoWebSignerServlet.getProp("datasource.password");
 			;
 			connection = DriverManager.getConnection(dbURL, username, password);
 			if (connection == null)
