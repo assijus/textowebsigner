@@ -5,17 +5,15 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Types;
 
-import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdSignPutRequest;
-import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdSignPutResponse;
-import br.jus.trf2.assijus.system.api.IAssijusSystem.IDocIdSignPut;
-
 import com.crivano.swaggerservlet.SwaggerUtils;
+
+import br.jus.trf2.assijus.system.api.AssijusSystemContext;
+import br.jus.trf2.assijus.system.api.IAssijusSystem.IDocIdSignPut;
 
 public class DocIdSignPut implements IDocIdSignPut {
 
 	@Override
-	public void run(DocIdSignPutRequest req, DocIdSignPutResponse resp)
-			throws Exception {
+	public void run(Request req, Response resp, AssijusSystemContext ctx) throws Exception {
 		Id id = new Id(req.id);
 		String envelope = SwaggerUtils.base64Encode(req.envelope);
 		String cpf = req.cpf;

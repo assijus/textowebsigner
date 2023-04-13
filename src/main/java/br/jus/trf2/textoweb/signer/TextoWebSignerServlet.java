@@ -22,6 +22,7 @@ public class TextoWebSignerServlet extends SwaggerServlet {
 		this.INSTANCE = this;
 		setAPI(IAssijusSystem.class);
 		setActionPackage("br.jus.trf2.textoweb.signer");
+		setApiContextClass(AssijusSystemContext.class);
 
 		addRestrictedProperty("datasource.name", "java:/jboss/datasources/ApoloDS");
 		addRestrictedProperty("datasource.url", null);

@@ -3,14 +3,12 @@ package br.jus.trf2.textoweb.signer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdHashGetRequest;
-import br.jus.trf2.assijus.system.api.IAssijusSystem.DocIdHashGetResponse;
+import br.jus.trf2.assijus.system.api.AssijusSystemContext;
 import br.jus.trf2.assijus.system.api.IAssijusSystem.IDocIdHashGet;
 
 public class DocIdHashGet implements IDocIdHashGet {
 	@Override
-	public void run(DocIdHashGetRequest req, DocIdHashGetResponse resp)
-			throws Exception {
+	public void run(Request req, Response resp, AssijusSystemContext ctx) throws Exception {
 		Id id = new Id(req.id);
 		String cpf = req.cpf;
 
